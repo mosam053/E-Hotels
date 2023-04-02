@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='styles/customerPage.css')}}"
+    />
+    <title>eHotels Customer Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      var form = document.getElementById("filterForm");
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+      });
+
+      $(document).ready(function () {
+        // When the hotel chain filter is changed, update the hotel filter options
+        $("#hotel-chain-filter").change(function () {
+          var chain_name = $(this).val();
+          if (chain_name !== "") {
+            $.ajax({
+              url: "/get_hotels",
+              data: { chain_name: chain_name },
+              success: function (response) {
+                // Clear and re-populate the hotel filter dropdown with the new options
+                $("#hotel-filter")
+                  .empty()
+                  .append($("<option>", { value: "", text: "Select a hotel" }));
+                $.each(response.hotels, function (index, hotel) {
+                  $("#hotel-filter").append(
+                    $("<option>", { value: hotel[0], text: hotel[0] })
+                  );
+                });
+              },
+              error: function () {
+                console.log("Error getting hotel data");
+              },
+            });
+          } else {
+            // Clear the hotel filter dropdown if no chain is selected
+            $("#hotel-filter")
+              .empty()
+              .append($("<option>", { value: "", text: "Select a hotel" }));
+          }
+        });
+      });
+    </script>
+  </head>
+  <style>
+    nav {
+      background-color: #212931;
+      overflow: hidden;
+      border-radius: 8px; 
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      float: left;
+    }
+
+    nav li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav li a:hover {
+      background-color: #111;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+      background-color: #f8f8f8;
+    }
+
+    th {
+      background-color: #f8f8f8;
+      font-weight: bold;
+      padding: 8px;
+    }
+
+    th,
+    td {
+      border: 1px solid;
+      text-align: center;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 1px solid;
+    }
+
+    tr:last-child td {
+      border-bottom: 1px solid;
+    }
+
+    button {
+      background-color: #212931;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+      margin-top: 12px;
+    }
+    button:hover {
+      background-color: #4c66af;
+      color: white;
+    }
+    .form-group select {
+      display: block;
+      width: 100%;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-group select:focus {
+      border-color: #021222;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(4, 18, 32, 0.25);
+    }
+    label[for="min-price"] {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    label[for="max-price"] {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    input[type="checkbox"] + label {
+      display: inline-block;
+      position: relative;
+      padding-left: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    input[type="checkbox"] + label:before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 3px;
+      width: 17px;
+      height: 17px;
+      border-radius: 3px;
+      border: 2px solid #4b4848;
+    }
+
+    input[type="checkbox"]:checked + label:before {
+      content: "\2713";
+      color: #fff;
+      background-color: #007bff;
+      text-align: center;
+      line-height: 17px;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #333;
+      background-color: #c4c1c1;
+      padding: 10px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+    .filter-form {
+      background-color: #c4c1c1;
+      padding: 20px;
+      border-radius: 8px;
+    }
+  </style>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="http://127.0.0.1:5000/">Home</a></li>
+        <li><a href="http://127.0.0.1:5000/profile">Profile</a></li>
+        <li><a href="http://127.0.0.1:5000/login">Login</a></li>
+        <li><a href="http://127.0.0.1:5000/register">Registration</a></li>
+        <li><a href="http://127.0.0.1:5000/loginCustomerPage">Booking</a></li>
+        <li><a href="http://127.0.0.1:5000/sqlView1Page">SQL View 1</a></li>
+        <li><a href="http://127.0.0.1:5000/sqlView2Page">SQL View 2</a></li>
+      </ul>
+    </nav>
+
+    <form id="filterForm" class="filter-form" method="get">
+      <div class="form-group">
+        <label for="hotel-chain-filter">Hotel chain</label>
+        <select
+          class="form-control"
+          id="hotel-chain-filter"
+          name="hotel-chain-filter"
+          onchange="this.form.submit()"
+        >
+          {% for chain in chains %}
+          <option value="{{ chain[0] }}">{{ chain[0] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="hotel-filter">Hotel</label>
+        <select class="form-control" id="hotel-filter" name="hotel-filter">
+          {% for hotel in hotels %}
+          <option value="{{ hotel[1] }}">{{ hotel[0] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="num-rooms-filter">Capacity</label>
+        <select
+          class="form-control"
+          id="num-rooms-filter"
+          name="num-rooms-filter"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="min-price">Minimum Price:</label>
+        <input
+          type="number"
+          id="min-price"
+          name="min-price"
+          min="10"
+          max="100"
+          value="10"
+        />
+
+        <label for="max-price">Maximum Price:</label>
+        <input
+          type="number"
+          id="max-price"
+          name="max-price"
+          min="30"
+          max="1000"
+          value="400"
+        />
+      </div>
+      <div class="form-group">
+        <input
+          checked
+          type="checkbox"
+          id="hasWifi-filter"
+          name="hasWifi-filter"
+          value="1"
+        />
+        <label for="hasWifi-filter"> Wifi</label><br />
+        <input
+          type="checkbox"
+          id="hasJacuzzi-filter"
+          name="hasJacuzzi-filter"
+          value="1"
+        />
+        <label for="hasJacuzzi-filter"> Jacuzzi</label><br />
+      </div>
+
+      <div class="form-group">
+        <label for="viewType-filter">View type:</label>
+        <select
+          class="form-control"
+          id="viewType-filter"
+          name="viewType-filter"
+          value="Sea view"
+        >
+          <option value="Sea view">Sea view</option>
+          <option value="Mountain view">Mountain view</option>
+        </select>
+      </div>
+
+      <!--
+        <div class="form-group">
+          <label for="start-date-filter">Check-in date:</label>
+          <input type="date" class="form-control" id="start-date-filter" name="start-date-filter">
+        </div>
+        
+        <div class="form-group">
+          <label for="end-date-filter">Check-out date:</label>
+          <input type="date" class="form-control" id="end-date-filter" name="end-date-filter">
+        </div>
+         -->
+
+      <div class="form-group">
+        <button type="submit" name="getRoomsBtn" value="getRooms">
+          Submit
+        </button>
+      </div>
+    </form>
+
+    <!-- Search Results -->
+    <table>
+      <h3>List of available rooms</h3>
+      <br />
+      <thead>
+        <tr>
+          <th>Room ID</th>
+          <th>Hotel</th>
+          <th>Price</th>
+          <th>Wifi</th>
+          <th>Jacuzzi</th>
+          <th>Capacity</th>
+          <th>View Type</th>
+          <th>Extendable</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr>
+          <td>{{ result[0] }}</td>
+          <td>{{ result[1] }}</td>
+          <td>{{ result[2] }}</td>
+          {% if result[3] == 1 %}
+          <td>Yes</td>
+          {% else %}
+          <td>No</td>
+          {% endif %} {% if result[4] == 1 %}
+          <td>Yes</td>
+          {% else %}
+          <td>No</td>
+          {% endif %}
+          <td>{{ result[5] }}</td>
+          <td>{{ result[6] }}</td>
+          {% if result[7] == 1 %}
+          <td>Yes</td>
+          {% else %}
+          <td>No</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <div>
+      <h3>
+        Please select the room you want by entering Check-in/Check-out dates and
+        the Room ID
+      </h3>
+      <label for="checkin">Check-in date:</label>
+      <input type="date" id="checkin" name="checkin" style="width: 150px" />
+      <label for="checkout">Check-out date:</label>
+      <input
+        type="date"
+        id="checkout"
+        name="checkout"
+        min=""
+        disabled
+        style="width: 150px"
+      />
+      <script>
+        const checkinInput = document.getElementById("checkin");
+        const checkoutInput = document.getElementById("checkout");
+        checkinInput.addEventListener("input", () => {
+          checkoutInput.min = checkinInput.value;
+          checkoutInput.disabled = false;
+        });
+      </script>
+      <label for="textbox">Room ID:</label>
+      <input type="text" id="textbox" name="textbox" />
+      <br />
+      <p id="error-message" style="color: rgb(6, 116, 116); display: none">
+        Please fill out all required fields.
+      </p>
+      <button id="submit-button">Book</button>
+      <script>
+        const submitButton = document.getElementById("submit-button");
+        submitButton.addEventListener("click", () => {
+          const roomID = document.getElementById("textbox").value;
+          const checkinDate = new Date(
+            document.getElementById("checkin").value
+          );
+          const checkoutDate = new Date(
+            document.getElementById("checkout").value
+          );
+          const bookingID = Date.now();
+          const bookingDate = `${checkinDate.toLocaleDateString()} - ${checkoutDate.toLocaleDateString()}`;
+          const errorMessage = document.getElementById("error-message");
+
+          if (roomID && checkinDate && checkoutDate) {
+            const formData = new FormData();
+            formData.append("roomID", roomID);
+            formData.append("bookingID", bookingID);
+            formData.append("bookingDate", bookingDate);
+            console.log("roomID: " + roomID);
+          
+            console.log("bookingID: " + bookingID);
+            console.log("bookingDate: " + bookingDate);
+
+            fetch("/loginCustomerPage", {
+              method: "POST",
+              body: formData,
+            });
+            document.getElementById("textbox").value = "";
+            errorMessage.style.display = "none";
+          } else {
+            console.log("Please fill out all required fields");
+            errorMessage.style.display = "block";
+          }
+        });
+      </script>
+    <br />
+    <h3>Previously Booked Rooms</h3>
+    <br />
+    <table>
+      <thead>
+        <tr>
+          <th>Room ID</th>
+          <th>Booking ID</th>
+          <th>Booking Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+        <tr>
+          <td>{{ booking[0] }}</td>
+          <td>{{ booking[1] }}</td>
+          <td>{{ booking[2] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </body>
+</html>

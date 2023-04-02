@@ -1,0 +1,74 @@
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+select {
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+input[type="date"],
+input[type="range"] {
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+button[type="submit"] {
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+
+.star-rating label {
+  margin-right: 10px;
+}
+
+.star-rating input[type="radio"] {
+  display: none;
+}
+
+.star-rating label:before {
+  content: "\2605";
+  font-size: 24px;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.star-rating input[type="radio"]:checked + label:before {
+  color: #f0ad4e;
+}
+

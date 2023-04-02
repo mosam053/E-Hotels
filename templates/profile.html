@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile page</title>
+</head>
+<style>
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #333;
+      background-color: #c4c1c1;
+      padding: 10px;
+    }
+
+    nav {
+      background-color: #212931;
+      overflow: hidden;
+      border-radius: 8px; 
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      float: left;
+    }
+
+    nav li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav li a:hover {
+      background-color: #111;
+    }
+
+    /* Add padding to containers */
+    .container {
+    padding: 8px;
+    margin: 0 auto; 
+    width: 350px;
+    }
+
+    /* Full-width input fields */
+    select, input[type=text] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    }
+
+    input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+    }
+
+    /* Set a style for the submit/register button */
+    .updateProfile {
+    background-color: #212931;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    }
+
+    .updateProfile:hover {
+    opacity:1;
+    }
+
+</style>
+<body>
+    <nav>
+        <ul>
+          <li><a href="http://127.0.0.1:5000/">Home</a></li>
+          <li><a href="http://127.0.0.1:5000/profile">Profile</a></li>
+          <li><a href="http://127.0.0.1:5000/login">Login</a></li>
+          <li><a href="http://127.0.0.1:5000/register">Registration</a></li>
+          <li><a href="http://127.0.0.1:5000/loginCustomerPage">Booking</a></li>
+          <li><a href="http://127.0.0.1:5000/sqlView1Page">SQL View 1</a></li>
+          <li><a href="http://127.0.0.1:5000/sqlView2Page">SQL View 2</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>User Profile</h1>
+        <form method="POST" action="{{ url_for('profile') }}">  
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" value="{{ customer[0] }}"><br>
+      
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" value="{{ customer[1] }}"><br>
+      
+            <label for="street">Street:</label>
+            <input type="text" name="street" value="{{ customer[2] }}"><br>
+      
+            <label for="city">City:</label>
+            <input type="text" name="city" value="{{ customer[3] }}"><br>
+      
+            <label for="province">Province:</label>
+            <input type="text" name="province" value="{{ customer[4] }}"><br>
+      
+            <input class="updateProfile" type="submit" value="Update Profile">
+          </form>
+    </div>
+</body>
+</html>

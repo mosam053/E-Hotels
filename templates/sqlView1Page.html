@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL View 2</title>
+</head>
+<style>
+   body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #333;
+      background-color: #c4c1c1;
+      padding: 10px;
+    }
+
+    nav {
+      background-color: #212931;
+      overflow: hidden;
+      border-radius: 8px; 
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      float: left;
+    }
+
+    nav li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav li a:hover {
+      background-color: #111;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+      background-color: #f8f8f8;
+    }
+
+    th {
+      background-color: #f8f8f8;
+      font-weight: bold;
+      padding: 8px;
+    }
+
+    th,
+    td {
+      border: 1px solid;
+      text-align: center;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 1px solid;
+    }
+
+    tr:last-child td {
+      border-bottom: 1px solid;
+    }
+
+</style>
+<body>
+    <nav>
+        <ul>
+          <li><a href="http://127.0.0.1:5000/">Home</a></li>
+          <li><a href="http://127.0.0.1:5000/login">Login</a></li>
+          <li><a href="http://127.0.0.1:5000/register">Registration</a></li>
+          <li><a href="http://127.0.0.1:5000/loginCustomerPage">Booking</a></li>
+          <li><a href="http://127.0.0.1:5000/sqlView1Page">SQL View 1</a></li>
+          <li><a href="http://127.0.0.1:5000/sqlView2Page">SQL View 2</a></li>
+        </ul>
+      </nav>
+    <div style="margin-top: 50px;">
+      <h3> SQL View 1: The number of available rooms per area</h3>
+      <form action="/sqlView1Page" method="post">
+        <label for="city">Select a city:</label>
+        <select id="city" name="city">
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+    {% if results %}
+      <p>There are <b>{{ results | length }}</b> available rooms in <b>{{ results[0][0] }}</b></p>
+      <table>
+          <thead>
+              <tr>
+                  <th>Area</th>
+                  <th>Hotel Chain</th>
+                  <th>Hotel</th>
+                  <th>Room ID</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for row in results %}
+                  <tr>
+                      <td>{{ row[0] }}</td>
+                      <td>{{ row[1] }}</td>
+                      <td>{{ row[2] }}</td>
+                      <td>{{ row[3] }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    {% endif %}
+  </div>
+    
+</body>
+</html>

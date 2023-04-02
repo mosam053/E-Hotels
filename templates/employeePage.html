@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Page</title>
+  </head>
+  <style>
+    nav {
+      background-color: #212931;
+      overflow: hidden;
+      border-radius: 8px; 
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      float: left;
+    }
+
+    nav li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    nav li a:hover {
+      background-color: #111;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+      background-color: #f8f8f8;
+    }
+
+    th {
+      background-color: #f8f8f8;
+      font-weight: bold;
+      padding: 8px;
+    }
+
+    th,
+    td {
+      border: 1px solid;
+      text-align: center;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 1px solid;
+    }
+
+    tr:last-child td {
+      border-bottom: 1px solid;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #333;
+      background-color: #c4c1c1;
+      padding: 10px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+   
+  </style>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="http://127.0.0.1:5000/">Home</a></li>
+        <li><a href="http://127.0.0.1:5000/login">Login</a></li>
+        <li><a href="http://127.0.0.1:5000/register">Registration</a></li>
+        <li><a href="http://127.0.0.1:5000/loginEmployeePage">Booking</a></li>
+        <li><a href="http://127.0.0.1:5000/sqlView1Page">SQL View 1</a></li>
+        <li><a href="http://127.0.0.1:5000/sqlView2Page">SQL View 2</a></li>
+      </ul>
+    </nav>
+
+    <!-- Search for Room & Booking based on Employee.hotelID -->
+    <table>
+      <h1 style="margin-top: 20px;">Employee page for {{ hotelName }}</h1>
+      <h3 style="margin-top: 20px;">List of available rooms</h3>
+      <br />
+      <thead>
+        <tr>
+          <th>Room ID</th>  
+          <th>Price</th>   
+          <th>Wifi</th>   
+          <th>Jacuzzi</th> 
+          <th>View Type</th> 
+          <th>Capacity</th> 
+          <th>Extendable</th> 
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr>
+          <td>{{ result[0] }}</td>
+          <td>{{ result[2] }}</td>
+          {% if result[4] == 1 %}
+          <td>Yes</td>
+          {% else %}
+          <td>No</td>
+          {% endif %} {% if result[6] == 1 %}
+          <td>Yes</td>
+          {% else %}
+          <td>No</td>
+          {% endif %}
+          <td>{{ result[7] }}</td>
+          <td>{{ result[10] }}</td>
+          {% if result[9] == 1 %}
+          <td>Yes</td>
+          {% else %}
+          <td>No</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3>Create a Booking</h3>
+    <form style="margin-top: 20px;" method="post">
+      <label for="checkin">Check-in date:</label>
+      <input type="date" id="checkin" name="checkin" style="width: 150px" />
+      <label for="checkout">Check-out date:</label>
+      <input
+        type="date"
+        id="checkout"
+        name="checkout"
+        min=""
+        disabled
+        style="width: 150px"
+      />
+      <script>
+        const checkinInput = document.getElementById("checkin");
+        const checkoutInput = document.getElementById("checkout");
+        checkinInput.addEventListener("input", () => {
+          checkoutInput.min = checkinInput.value;
+          checkoutInput.disabled = false;
+        });
+      </script>
+      <label for="customerSSN">Social Security Number</label>
+      <input type="text" id="customerSSN" name="customerSSN"/> 
+
+      <label for="roomID">Room ID</label>
+      <input type="text" id="roomID" name="roomID"/> 
+      <br>
+      <p id="error-message" style="color: rgb(6, 116, 116); display: none">
+        Please fill out all required fields.
+      </p>
+      <button type="submit" id="book-button" name="submitBtn" value="book-button">Book</button>
+    </form>
+
+    <script>
+      const bookButton = document.getElementById("book-button");
+      bookButton.addEventListener("click", () => {
+        const roomID = document.getElementById("roomID").value;
+        const SSN = document.getElementById("customerSSN").value;
+        const checkinDate = new Date(
+          document.getElementById("checkin").value
+        );
+        const checkoutDate = new Date(
+          document.getElementById("checkout").value
+        );
+        const bookingID = Date.now();
+        const bookingDate = `${checkinDate.toLocaleDateString()} - ${checkoutDate.toLocaleDateString()}`;
+        const errorMessage = document.getElementById("error-message");
+
+        if (roomID && checkinDate && checkoutDate && SSN) {
+          const formData = new FormData();
+          formData.append("roomID", roomID);
+          formData.append("bookingID", bookingID);
+          formData.append("bookingDate", bookingDate);
+          formData.append("SSN", SSN);
+          console.log("roomID: " + roomID);
+          console.log("roomID: " + SSN);
+          console.log("bookingID: " + bookingID);
+          console.log("bookingDate: " + bookingDate);
+
+          fetch("/loginEmployeePage", {
+            method: "POST",
+            body: formData,
+          });
+          document.getElementById("textbox").value = "";
+          errorMessage.style.display = "none";
+        } else {
+          console.log("Please fill out all required fields");
+          errorMessage.style.display = "block";
+        }
+      });
+    </script>
+    
+
+    
+    <!-- View current bookings and Confirm a booking-->
+    <h3 style="margin-top: 20px;">Confirm a Booking</h3>
+    <form style="margin-top: 20px;">
+      <div class="form-group">
+        <label for="booking-filter">Bookings:</label>
+        <select class="form-control" id="booking-filter" name="booking-filter">
+          {% for row in rows %}
+          <option value="{{ row[0] }}">
+            {{ row[0] }}, {{ row[1] }}, {{ row[2] }}, {{ row[3] }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+    </form>
+    <div>
+      <button onclick="displayAlert()" type="button">Confirm Booking</button>
+      <script>
+        function displayAlert() {
+          var alertBox = document.createElement("div");
+          alertBox.innerHTML = "Room booking confirmed!";
+          alertBox.classList.add("alert");
+          document.body.appendChild(alertBox);
+          setTimeout(function () {
+            alertBox.parentNode.removeChild(alertBox);
+          }, 3000);
+        }
+
+      </script>
+
+
+
+  </body>
+</html>

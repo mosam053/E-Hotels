@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/login.css')}}" />
+    <title>Login Page</title>
+</head>
+<body>
+    <a href="/" class="previous">&laquo; Home</a>
+    <div class="container">
+        <!--Login as a Customer-->
+        <h1>Login</h1>
+
+        <p>Login to your account using the following form.</p>
+        <hr>
+        <form method="post" action="{{ url_for('login') }}">
+            <label for="username"><b>Username</b></label>
+            <input type="text" name="username" placeholder="Username" required>
+    
+            <label for="password"><b>Password</b></label>
+            <input type="password" name="password" placeholder="Password" required>
+            <button class="loginbtn" type="submit" name="loginBtn" value="LoginCustomer">Login as Customer</button>
+            <button class="loginbtn" type="submit" name="loginBtn" value="LoginEmployee">Login as Employee</button>
+        </form>
+        <hr>
+        <div class="container signin">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+        </div>
+    </div>
+</body>
+</html>

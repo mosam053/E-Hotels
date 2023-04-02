@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/register.css')}}" />
+
+    <title>Register</title>
+</head>
+<body>
+    <!-- Registration form to create a Customer account -->
+    <a href="/" class="previous">&laquo; Home</a>
+    <div class="container">
+        <form method="post">
+            <div class="container" action="{{ url_for('register') }}">
+              <h1>Register</h1>
+              <p>Please fill in this form to create a Customer account.</p>
+              <hr>
+          
+              <label for="username"><b>Username</b></label>
+              <input type="text" name="username" placeholder="Username" required>
+      
+              <label for="password"><b>Password</b></label>
+              <input type="password" name="password" placeholder="Password" required>
+      
+              <label for="SSN"><b>Social Security Number</b></label>
+              <input type="text" name="SSN" placeholder="Social Security Number" required>
+      
+              <label for="firstName"><b>First name</b></label>
+              <input type="text" name="firstName" placeholder="First Name" required>
+      
+              <label for="lastName"><b>Last name</b></label>
+              <input type="text" name="lastName" placeholder="Last Name" required>
+      
+              <label for="street"><b>Street</b></label>
+              <input type="text" name="street" placeholder="Street" required>
+      
+              <label for="city"><b>City</b></label>
+              <select id="city" name="city" required>
+                <option type="text" value="">Select City</option>
+                <option type="text" value="Ottawa">Ottawa</option>
+                <option type="text" value="Toronto">Toronto</option>
+                <option type="text" value="Hamilton">Hamilton</option>
+              </select>
+      
+              <label for="province"><b>Province</b></label>
+              <select id="province" name="province" required>
+                <option type="text" value="">Select City</option>
+                <option type="text" value="Ontario" selected>Ontario</option>
+              </select>
+      
+              <label for="zip"><b>Zip code</b></label>
+              <input type="text" name="zip" placeholder="Zip Code" required>
+              
+              <hr>
+          
+              <button type="submit" class="registerbtn" value="Register">Register</button>
+            </div>
+          </form>
+          <div class="container signin">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+          </div>
+    </div>
+</body>
+</html>
+
